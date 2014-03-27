@@ -21,11 +21,13 @@
 extern "C" {
 #endif
 	
-	extern void InitWebKit(void);
+	extern void InitWebKit();
 	extern OSStatus CreateHIWebView(HIViewRef *viewref);
 	
 	extern void URLToWebView(HIViewRef viewref, CFURLRef inURL);
 	extern void DataToWebView(HIViewRef viewref, CFStringRef inData);
+	extern void DoWKClick(HIViewRef inView,  CGFloat x, CGFloat y);
+
 	
 #ifdef __cplusplus
 }

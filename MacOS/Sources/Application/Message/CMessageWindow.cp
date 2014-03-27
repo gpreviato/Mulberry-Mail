@@ -65,6 +65,7 @@
 #include "CVisualProgress.h"
 #include "CWaitCursor.h"
 #include "CWebKitControl.h"
+#include "C3PaneWindow.h"
 #include "CWindowsMenu.h"
 
 #include <LDisclosureTriangle.h>
@@ -72,6 +73,8 @@
 #include <LIconControl.h>
 #include <LPopupButton.h>
 #include "MyCFString.h"
+
+#include "CAttachmentRawList.h"
 
 #include <UGAColorRamp.h>
 #include <UStandardDialogs.h>
@@ -96,6 +99,8 @@ cdstring CMessageWindow::sNumberStringBig;
 cdstring CMessageWindow::sSubMessageString;
 cdstring CMessageWindow::sDigestString;
 cdstring CMessageWindow::sLastCopyTo;
+
+extern int debug;
 
 // C O N S T R U C T I O N / D E S T R U C T I O N  M E T H O D S
 
@@ -313,8 +318,10 @@ void CMessageWindow::FinishCreateSelf(void)
 
 	mHTML = (CWebKitControl*) FindPaneByID(paneid_MessageHTML);
 #ifdef USE_HTML
-	mHTML->Hide();
-	mHTML->Disable();
+		if (mHTML != nil) {
+			mHTML->Hide();
+			mHTML->Disable();
+		}
 #else
 	delete mHTML;
 #endif
@@ -1792,21 +1799,139 @@ void CMessageWindow::ResetText(void)
 		mText->SetSelectionRange(0, 0);
 
 #ifdef USE_HTML
-		if ((actual_content == eContentSubHTML) && (actual_view == eViewFormatted))
+		
+		
+		if ((actual_content == eContentSubHTML) && (actual_view == eViewFormatted) && mHTML!=nil)
 		{
+			
+			cdustring data(mUTF16Text.get()); // Good data...
+			
+			int LastCidUsed=-1, NumOfAttach=0;
+#define MAXCID	200
+			CAttachmentRawList ListOfAttach;
+			CAttachmentRawList::RawAttachments *TheAttach;
+			
+			ImgCidIdx CidIdx[MAXCID];
+			
+			int i;
+			for (i=0;i<MAXCID; ++i) 
+				CidIdx[i].StartPos=-1;
+			
+			
+			
+			
+			
+			
+				// We can try to change the html to manage embedded images
+				//			  if (ShowRawBody()) {
+				// start adding the header to the rawmessage
+			cdustring mMhtData(mItsMsg->GetHeader());
+				// Read in raw text
+			std::ostrstream out;
+			mItsMsg->GetRawBody(out, true);
+			
+				// Convert to UTF16 and grab the data
+			cdustring uout(out.str());
+			out.freeze(false);
+			
+			
+			
+				// start adding the header to the rawmessage
+				//			mMhtData.append(mRawUTF16Text.get());
+			mMhtData.append(uout);
+			
+			cdstring  Mht=mMhtData.ToUTF8(); // THis is the raw message... We need it to extract attachments and save it in a list
+											 // ok, search if the tag '<img' exist somewere...
+			NumOfAttach=ListOfAttach.GetAttachmentList(Mht);
+				// End ShowRawBody			  }
+			
+			
+			
+			
+			
+			cdustring mHBody(mUTF16Text.get());
+			cdstring TheBody=mHBody.ToUTF8();
+			cdstring NewMHTBody="";
+			int IMark=0, FMark=0, ISCid=0, LastIMark=0, EndTag=0;
+			char BufCid[80], TheCidWithPref[255], TmpStrBuff[255];
+			
+			while (IMark!=-1) {
+				IMark=TheBody.find("<img",FMark,4,1); // search for the img marker
+				if (IMark!=-1) {
+					
+					EndTag=TheBody.find('>', IMark, 0);
+					if (EndTag!=-1) { // End of the img tag...
+									  // So, we have the img tag from IMark to FMark. We can check if the the cid is requested...
+						ISCid=TheBody.find("src=\"cid:",IMark,strlen("src=\"cid:"),1);
+						if (ISCid!=-1) { //GotIt! Now We have to remeber position and dimension
+							CidIdx[++LastCidUsed].StartPos=IMark;
+							CidIdx[LastCidUsed].IniCid=ISCid+strlen("src=\"cid:");
+							CidIdx[LastCidUsed].EndCid=TheBody.find('"', CidIdx[LastCidUsed].IniCid, 0);
+							
+							i=ISCid;
+							cdstring CidBuf((const cdstring&) TheBody, (cdstring::size_type) CidIdx[LastCidUsed].IniCid, (cdstring::size_type)  (CidIdx[LastCidUsed].EndCid- CidIdx[LastCidUsed].IniCid));
+							strcpy(CidIdx[LastCidUsed].cid, (char *) CidBuf);
+								// Now we can copy the string to the New Body
+							NewMHTBody.append((char *) TheBody, FMark, (ISCid+strlen("src=\""))-FMark);
+							FMark=CidIdx[LastCidUsed].EndCid; // Update the Mark
+															  // Well done... now search the cid
+							if ((TheAttach=ListOfAttach.SearchCid(CidIdx[LastCidUsed].cid))!=NULL) {
+									// Well done! Now attache tye content_type as: src="data:image/jpeg;base64, +attachemnt....
+								sprintf(TmpStrBuff, "data:%s;base64,", TheAttach->cont_type);
+								NewMHTBody.append(TmpStrBuff);
+								NewMHTBody.append(TheAttach->attch);
+									//NewMHTBody.append("\"");
+							}
+							
+								//							  sprintf(TheCidWithPref, "Content-ID: <%s>", (char *) CidBuf);
+						}
+						else {
+							NewMHTBody.append((char *) TheBody, FMark, EndTag-FMark);
+							FMark=EndTag;
+						}
+						
+					} 
+					else {
+							// if here... there is an error in the code...
+					}
+					
+				}
+				else {						  					  
+					NewMHTBody.append((char *) TheBody, FMark, strlen((char *) TheBody)-FMark);
+					break;
+				}
+				
+				
+				
+			}
+			
+			
+			
 			mHTML->Show();
 			mHTML->Enable();
 			mTextPane->Hide();
-			cdustring data(mUTF16Text.get());
-			mHTML->SetData(data.ToUTF8());
+				//			mHTML->SetData(data.ToUTF8());
+			if (debug >10 ) {		
+				FILE *filedbg;
+				filedbg=fopen("/tmp/mulb_test.html","w");
+				fprintf(filedbg, "%s", (char *) NewMHTBody);
+				fclose(filedbg);
+			}
+			
+			mHTML->SetData(NewMHTBody);
+			
 		}
 		else
 		{
-			mHTML->Hide();
-			mHTML->Disable();
+			if(mHTML!=nil) {
+				mHTML->Hide();
+				mHTML->Disable();
+			}
 			mTextPane->Show();
 		}
+		
 #endif
+		
 	}
 
 	// Finally force redraw with text scrolled to top

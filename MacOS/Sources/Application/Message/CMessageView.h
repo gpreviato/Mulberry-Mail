@@ -131,6 +131,11 @@ public:
 	static cdmutexprotect<CMessageViewList> sMsgViews;	// List of windows (protected for multi-thread access)
 
 private:
+	typedef  struct ImgCidIdx {
+		int StartPos, IniCid, EndCid;
+		char cid[80];
+	}  ;
+	
 	static cdstring	sLastCopyTo;						// Cache last selected copy to
 	CMessage*		mItsMsg;							// The message for this window
 	CMailboxView*	mMailboxView;						// Associated mailbox view

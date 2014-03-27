@@ -15,15 +15,14 @@
 */
 
 // ===========================================================================
-//	CWebKitControlImp.h			PowerPlant 2.2.2	©1997-2000 Metrowerks Inc.
+//	CWebKitControl.h				PowerPlant 2.2.2	©1997-2001 Metrowerks Inc.
 // ===========================================================================
 
-#ifndef _H_CWebKitControlImp
-#define _H_CWebKitControlImp
+#ifndef _H_CWebKitControl
+#define _H_CWebKitControl
 #pragma once
 
-#include <LAMControlImp.h>
-#include <LControlImp.h>
+#include <LControlView.h>
 
 #include "cdstring.h"
 
@@ -31,32 +30,39 @@ PP_Begin_Namespace_PowerPlant
 
 // ---------------------------------------------------------------------------
 
-class	CWebKitControlImp : public LAMControlImp {
+class	CWebKitControl : public LControlView {
 public:
-	CWebKitControlImp( LStream* inStream = nil );
+	enum { class_ID		= FOUR_CHAR_CODE('webc'),
+		imp_class_ID	= FOUR_CHAR_CODE('iweb') };
 	
-	virtual				~CWebKitControlImp();
+	CWebKitControl(
+				   LStream*			inStream,
+				   ClassIDT			inImpID = imp_class_ID);
+	
+	CWebKitControl(
+				   const SPaneInfo&	inPaneInfo,
+				   const SViewInfo&	inViewInfo,
+				   MessageT			inMessage,
+				   SInt16				inControlKind,
+				   ClassIDT			inImpID = imp_class_ID);
+	
+	virtual				~CWebKitControl();
 	
 	void SetURL(const cdstring& url);
 	void SetData(const cdstring& data);
-	void ClickSelf();
-	void FinishCreate();
-	void Click(SMouseDownEvent	&inMouseDown);
-	Boolean ClickStillDown(const Point&	DeltaMouseLoc);
-	
-	
-	
-//	OSStatus ApplyBindToControlLayout(HIViewRef webView, HIViewRef toView);
 	
 protected:
-		HIViewRef	mViewRef, contentView;
-	    ControlHandle	rootControl;
-		WindowPtr		macWindowP;
+		virtual void		AdjustMouseSelf(
+											Point				inPortPt,
+											const EventRecord&	inMacEvent,
+											RgnHandle			outMouseRgn);
 	
-	virtual void		MakeMacControl(
-									   ConstStringPtr	inTitle,
-									   SInt32			inRefCon);
+private:
+		CWebKitControl();
+	CWebKitControl( const CWebKitControl& );
+	CWebKitControl&		operator = ( const CWebKitControl& );
 	
+	void				InitCWebKitControl();
 };
 
 PP_End_Namespace_PowerPlant

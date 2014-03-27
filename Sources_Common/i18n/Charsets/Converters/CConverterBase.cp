@@ -191,15 +191,78 @@ void CConverterBase::FromUTF16(const unsigned short* str, size_t ulen, std::ostr
 
 void CConverterBase::ToUTF8(const char* str, size_t len, std::ostream& out)
 {
-	// Must have valid input
+	enum BOM_Types{
+		NONE, UTF32BE, UTF32LE, UTF16BE, UTF16LE, UTF8
+	};
+	
+	enum BOM_Types BOM_Found;
+	
+	bool IsBigEndian=false;
+
+	
+	BOM_Found=NONE;
+	
+		// Must have valid input
 	if (!str)
 		return;
 
 	// Convert each character
 	const unsigned char* p = reinterpret_cast<const unsigned char*>(str);
 	const unsigned char* q = p + len;
+	
+	const unsigned char* c;
+	
+	unsigned char c1;
+	unsigned char c2 ;
+	wchar_t	wc;
+
+		// Modified by gra - March 7, 2014
+		// Identify if the string start with a BOM:
+		// 00 00 FE FF -> UTF32, big Endian
+		// FF FE 00 00 -> UTF32, little endian
+		// FE FF	   -> UTF16, big Endian
+		// FF FE	   -> UTF16, little endian
+		// EF BB BF	   -> UTF8
+	
+	if (*p==0x00 && *(p+1)==0x00 && *(p+2)==0xFE && *(p+3)==0xFF) {
+		BOM_Found=UTF32BE;
+		IsBigEndian=true;
+		p+=4;
+	} else if (*p==0xFF && *(p+1)==0xFE && *(p+2)==0x00 && *(p+3)==0x00) {
+		BOM_Found=UTF32LE;
+		IsBigEndian=false;
+		p+=4;
+	} else if (*p==0xFE && *(p+1)==0xFF) {
+		BOM_Found=UTF16BE;
+		IsBigEndian=true;
+		p+=2;
+	} else if (*p==0xFF && *(p+1)==0xFE) {
+		BOM_Found=UTF16LE;
+		IsBigEndian=false;
+		p+=2;
+	} else if (*p==0xEF && *(p+1)==0xBB && *(p+2)==0xBF) {
+		BOM_Found=UTF8;
+		p+=3;
+	} 
+
+
+	
+		
+		// In the text check the presence of "zero width no-break space" U+FEFF	
+	
 	while(p < q)
-	{
+	{ 
+		c=p;
+		c1=*p;
+		c2=*(p+1);
+		wc = IsBigEndian ? ((c1 << 8) | c2) : ((c2 << 8) | c1);
+		
+		if (wc == 0xfeff && !IsBigEndian) {
+			c_2_w(c);
+		} 
+		if (wc == 0xfffe && !IsBigEndian) {
+			c_2_w(c);
+		}
 		wchar_t wp = c_2_w(p);
 		if (wp < 0x80)
 		{
@@ -292,3 +355,5 @@ void CConverterBase::init_w_2_c(std::ostream& out)
 void CConverterBase::finish_w_2_c(std::ostream& out)
 {
 }
+
+

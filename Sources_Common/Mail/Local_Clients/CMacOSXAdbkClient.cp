@@ -532,26 +532,31 @@ void CMacOSXAdbkClient::ScanAddressBook(CAddressBook* adbk)
 	// Get all people
 	CFArrayRef array = ::ABCopyArrayOfAllPeople(ab);
 
+		//	Boolean AnyValueIntoTheArray=CFArrayContainsValue(array);
+	
 	// How many records matched?
-	CFIndex count = ::CFArrayGetCount(array);
-	for(CFIndex i = 0; i < count; i++)
-	{
+	//	if (AnyValueIntoTheArray) {
+		
+	  CFIndex count = ::CFArrayGetCount(array);
+	  for(CFIndex i = 0; i < count; i++)
+	  {
 		// Parse into an address
 		ParseAddress((ABRecordRef) ::CFArrayGetValueAtIndex(array,i));
-	}
-	::CFRelease(array);
+	  }
+	  ::CFRelease(array);
 
-	// Get all groups
-	array = ::ABCopyArrayOfAllGroups(ab);
+	  // Get all groups
+	  array = ::ABCopyArrayOfAllGroups(ab);
 
-	// How many records matched?
-	count = ::CFArrayGetCount(array);
-	for(CFIndex i = 0; i < count; i++)
-	{
+	  // How many records matched?
+	  count = ::CFArrayGetCount(array);
+	  for(CFIndex i = 0; i < count; i++)
+	  {
 		// Parse into a group
-		ParseGroup((ABRecordRef) ::CFArrayGetValueAtIndex(array,i));
-	}
-	::CFRelease(array);
+	  	ParseGroup((ABRecordRef) ::CFArrayGetValueAtIndex(array,i));
+	  }
+	  ::CFRelease(array);
+		//	}
 }
 
 // Scan address book for matching addresses

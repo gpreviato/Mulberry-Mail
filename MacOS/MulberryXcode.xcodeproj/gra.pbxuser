@@ -1,0 +1,174 @@
+// !$*UTF8*$!
+{
+	20286C28FDCF999611CA2CEA /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeExecutable = 243F859E18CA50450059F58A /* MulberryXcode */;
+		activeTarget = 8D0C4E890486CD37000505A6 /* MulberryXcode */;
+		codeSenseManager = 243F85DA18CA50650059F58A /* Code sense */;
+		executables = (
+			243F859E18CA50450059F58A /* MulberryXcode */,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					828,
+					20,
+					48.16259765625,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 415912005;
+			PBXWorkspaceStateSaveDate = 415912005;
+		};
+		perUserProjectItems = {
+			243F85F518CA7E1A0059F58A /* PBXBookmark */ = 243F85F518CA7E1A0059F58A /* PBXBookmark */;
+			243F85F818CA84AB0059F58A /* PBXTextBookmark */ = 243F85F818CA84AB0059F58A /* PBXTextBookmark */;
+			243F85F918CA84AB0059F58A /* PBXTextBookmark */ = 243F85F918CA84AB0059F58A /* PBXTextBookmark */;
+			243F85FA18CA84AB0059F58A /* PBXTextBookmark */ = 243F85FA18CA84AB0059F58A /* PBXTextBookmark */;
+			243F860018CA84AB0059F58A /* PBXTextBookmark */ = 243F860018CA84AB0059F58A /* PBXTextBookmark */;
+		};
+		sourceControlManager = 243F85D918CA50650059F58A /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	243F859E18CA50450059F58A /* MulberryXcode */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 1;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = MulberryXcode;
+		savedGlobals = {
+		};
+		showTypeColumn = 0;
+		sourceDirectories = (
+		);
+		variableFormatDictionary = {
+		};
+	};
+	243F85D918CA50650059F58A /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = "";
+			};
+		};
+	};
+	243F85DA18CA50650059F58A /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	243F85F518CA7E1A0059F58A /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = AF2551E80C432843001AAE53 /* CWebKitControl.cp */;
+	};
+	243F85F818CA84AB0059F58A /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AFCDDDEC0AE176DC00E30447 /* CSMTPWindow.cp */;
+		name = "CSMTPWindow.cp: 71";
+		rLen = 0;
+		rLoc = 1796;
+		rType = 0;
+		vrLen = 946;
+		vrLoc = 1397;
+	};
+	243F85F918CA84AB0059F58A /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AFCDDE3B0AE176DC00E30447 /* CMessageView.cp */;
+		name = "CMessageView.cp: 250";
+		rLen = 0;
+		rLoc = 7529;
+		rType = 0;
+		vrLen = 949;
+		vrLoc = 3553;
+	};
+	243F85FA18CA84AB0059F58A /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AFCDDE3B0AE176DC00E30447 /* CMessageView.cp */;
+		name = "CMessageView.cp: 1696";
+		rLen = 0;
+		rLoc = 43205;
+		rType = 0;
+		vrLen = 1253;
+		vrLoc = 42542;
+	};
+	243F860018CA84AB0059F58A /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AF2551E80C432843001AAE53 /* CWebKitControl.cp */;
+		name = "CWebKitControl.cp: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1647;
+		vrLoc = 1448;
+	};
+	8D0C4E890486CD37000505A6 /* MulberryXcode */ = {
+		activeExec = 0;
+		executables = (
+			243F859E18CA50450059F58A /* MulberryXcode */,
+		);
+	};
+	AF2551E80C432843001AAE53 /* CWebKitControl.cp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {829, 1391}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{1448, 1647}";
+			sepNavWindowFrame = "{{38, 107}, {888, 925}}";
+		};
+	};
+	AFCDDDC70AE176DB00E30447 /* CMailboxWindow.cp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {829, 2145}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{1128, 1671}";
+			sepNavWindowFrame = "{{15, 128}, {888, 925}}";
+		};
+	};
+	AFCDDDEC0AE176DC00E30447 /* CSMTPWindow.cp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {925, 1950}}";
+			sepNavSelRange = "{1796, 0}";
+			sepNavVisRange = "{1397, 946}";
+		};
+	};
+	AFCDDE3B0AE176DC00E30447 /* CMessageView.cp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1090, 33176}}";
+			sepNavSelRange = "{43205, 0}";
+			sepNavVisRange = "{42542, 1253}";
+		};
+	};
+}

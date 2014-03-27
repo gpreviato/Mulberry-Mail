@@ -32,7 +32,6 @@
 #include <UAppearance.h>
 
 PP_Begin_Namespace_PowerPlant
-extern int debug;
 
 
 // ---------------------------------------------------------------------------
@@ -88,16 +87,11 @@ CWebKitControl::InitCWebKitControl()
 
 void CWebKitControl::SetURL(const cdstring& url)
 {
-	if(debug>10)
-		printf("CWebKitControl::SetURL\n");
 	static_cast<CWebKitControlImp*>(mControlSubPane->GetControlImp())->SetURL(url);
 }
 
 void CWebKitControl::SetData(const cdstring& data)
 {
-	if(debug>10)
-		printf("CWebKitControl::SetData\n");
-	
 	static_cast<CWebKitControlImp*>(mControlSubPane->GetControlImp())->SetData(data);
 }
 
@@ -107,44 +101,7 @@ void CWebKitControl::AdjustMouseSelf(
 									 RgnHandle			/* ioMouseRgn */)
 									 {
 	// Do nothing
-	if(debug)
-		printf("CWebKitControl::AdjustMouseSelf\n");
 									 }
 									 
-void CWebKitControl::FinishCreate()
-{
-	if(debug)
-		printf("CWebKitControl::FinishCreate\n");
-	
-}
-
-Boolean CWebKitControl::ClickStillDown(const Point& OnClickMouseLoc, const Point&	UpdMouseLoc, const Point&	DeltaMouseLoc)
-{
-	if(debug)
-		printf("CWebKitControl::ClickStillDown\n");
-	static_cast<CWebKitControlImp*>(mControlSubPane->GetControlImp())->ClickStillDown(DeltaMouseLoc);
-}
-
-
-
-void CWebKitControl::Click(SMouseDownEvent	&inMouseDown)
-{
-	if(debug)
-		printf("CWebKitControl::Click to CWebKitControlImp\n");
-    static_cast<CWebKitControlImp*>(mControlSubPane->GetControlImp())->Click(inMouseDown);
-}
-
-
-void CWebKitControl::ClickSelf()
-{	
-	if(debug)
-		printf("CWebKitControl::ClickSelf()\n");
-	
-	
-}
-
-
-
-
-PP_End_Namespace_PowerPlant
+									 PP_End_Namespace_PowerPlant
 									 

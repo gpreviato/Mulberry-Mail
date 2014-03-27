@@ -33,6 +33,9 @@ public:
 
 	virtual wchar_t c_2_w(const unsigned char*& c);
 	virtual int w_2_c(wchar_t wc, char* out);
+	virtual bool SetEndian(const bool IsBigEndian);
+private:
+	bool mBigEndian;
 };
 
 }

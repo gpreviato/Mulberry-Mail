@@ -56,6 +56,8 @@
 #include "CWebKitControl.h"
 #include "C3PaneMailboxToolbar.h"
 #include "C3PaneWindow.h"
+#include "CAttachmentRawList.h"
+
 
 #include "MyCFString.h"
 
@@ -72,6 +74,8 @@
 #include <string.h>
 #include <strstream>
 
+
+
 //#define USE_HTML
 
 // __________________________________________________________________________________________________
@@ -86,7 +90,7 @@ const int cSplitterMin1 = cPartsTableMinimumHeight;
 const int cSplitterMin2 = 32;
 
 // Static members
-
+extern int debug;
 
 cdmutexprotect<CMessageView::CMessageViewList> CMessageView::sMsgViews;
 cdstring CMessageView::sLastCopyTo;
@@ -162,6 +166,8 @@ void CMessageView::InitMessageView()
 // Get details of sub-panes
 void CMessageView::FinishCreateSelf()
 {
+	LView* msg_focus;
+	
 	// Do inherited
 	CBaseView::FinishCreateSelf();
 
@@ -247,8 +253,10 @@ void CMessageView::FinishCreateSelf()
 
 	mHTML = (CWebKitControl*) FindPaneByID(paneid_MessageHTML);
 #ifdef USE_HTML
-	mHTML->Hide();
-	mHTML->Disable();
+	if (mHTML != nil) {
+	  mHTML->Hide();
+	  mHTML->Disable();
+	}
 #else
 	delete mHTML;
 #endif
@@ -259,8 +267,9 @@ void CMessageView::FinishCreateSelf()
 
 	ShowSecretPane(false);
 
-	// Install splitter views
-	LView* msg_focus = (LView*) FindPaneByID(paneid_MessageViewTextFocus);
+
+		
+	msg_focus = (LView*) FindPaneByID(paneid_MessageViewTextFocus);
 	mSplitter->InstallViews(mAttachHide, msg_focus ? msg_focus : mBottomPane, true);
 	mSplitter->ShowView(false, true);
 	mSplitter->SetMinima(cSplitterMin1, cSplitterMin2);
@@ -1692,20 +1701,138 @@ void CMessageView::ResetText()
 		mText->SetSelectionRange(0, 0);
 
 #ifdef USE_HTML
-		if ((actual_content == eContentSubHTML) && (actual_view == eViewFormatted))
-		{
-			mHTML->Show();
-			mHTML->Enable();
-			mTextPane->Hide();
-			cdustring data(mUTF16Text.get());
-			mHTML->SetData(data.ToUTF8());
-		}
-		else
-		{
-			mHTML->Hide();
-			mHTML->Disable();
-			mTextPane->Show();
-		}
+
+		
+		  if ((actual_content == eContentSubHTML) && (actual_view == eViewFormatted) && mHTML!=nil)
+		  {
+			  
+			  cdustring data(mUTF16Text.get()); // Good data...
+
+			  int LastCidUsed=-1, NumOfAttach=0;
+#define MAXCID	200
+			  CAttachmentRawList ListOfAttach;
+			  CAttachmentRawList::RawAttachments *TheAttach;
+			  
+			  ImgCidIdx CidIdx[MAXCID];
+			  
+			  int i;
+			  for (i=0;i<MAXCID; ++i) 
+				  CidIdx[i].StartPos=-1;
+			  
+			  
+			  
+			  
+			  
+			  
+				  // We can try to change the html to manage embedded images
+				  //			  if (ShowRawBody()) {
+					  // start adding the header to the rawmessage
+			cdustring mMhtData(mItsMsg->GetHeader());
+					  // Read in raw text
+			std::ostrstream out;
+			mItsMsg->GetRawBody(out, GetViewOptions().GetPreviewFlagging() != CMailViewOptions::eMarkSeen);
+				  
+				  // Convert to UTF16 and grab the data
+			cdustring uout(out.str());
+			out.freeze(false);
+				  
+				  
+				  
+				  // start adding the header to the rawmessage
+				  //			mMhtData.append(mRawUTF16Text.get());
+			mMhtData.append(uout);
+			  
+			cdstring  Mht=mMhtData.ToUTF8(); // THis is the raw message... We need it to extract attachments and save it in a list
+				  // ok, search if the tag '<img' exist somewere...
+			NumOfAttach=ListOfAttach.GetAttachmentList(Mht);
+				  // End ShowRawBody			  }
+			  
+			  
+			  
+			  
+			  
+			  cdustring mHBody(mUTF16Text.get());
+			  cdstring TheBody=mHBody.ToUTF8();
+			  cdstring NewMHTBody="";
+			  int IMark=0, FMark=0, ISCid=0, LastIMark=0, EndTag=0;
+			  char BufCid[80], TheCidWithPref[255], TmpStrBuff[255];
+			  
+			  while (IMark!=-1) {
+				  IMark=TheBody.find("<img",FMark,4,1); // search for the img marker
+				  if (IMark!=-1) {
+					  
+					  EndTag=TheBody.find('>', IMark, 0);
+					  if (EndTag!=-1) { // End of the img tag...
+									   // So, we have the img tag from IMark to FMark. We can check if the the cid is requested...
+						  ISCid=TheBody.find("src=\"cid:",IMark,strlen("src=\"cid:"),1);
+						  if (ISCid!=-1) { //GotIt! Now We have to remeber position and dimension
+							  CidIdx[++LastCidUsed].StartPos=IMark;
+							  CidIdx[LastCidUsed].IniCid=ISCid+strlen("src=\"cid:");
+							  CidIdx[LastCidUsed].EndCid=TheBody.find('"', CidIdx[LastCidUsed].IniCid, 0);
+
+							  i=ISCid;
+							  cdstring CidBuf((const cdstring&) TheBody, (cdstring::size_type) CidIdx[LastCidUsed].IniCid, (cdstring::size_type)  (CidIdx[LastCidUsed].EndCid- CidIdx[LastCidUsed].IniCid));
+							  strcpy(CidIdx[LastCidUsed].cid, (char *) CidBuf);
+								  // Now we can copy the string to the New Body
+							  NewMHTBody.append((char *) TheBody, FMark, (ISCid+strlen("src=\""))-FMark);
+							  FMark=CidIdx[LastCidUsed].EndCid; // Update the Mark
+								  // Well done... now search the cid
+							  if ((TheAttach=ListOfAttach.SearchCid(CidIdx[LastCidUsed].cid))!=NULL) {
+									  // Well done! Now attache tye content_type as: src="data:image/jpeg;base64, +attachemnt....
+								  sprintf(TmpStrBuff, "data:%s;base64,", TheAttach->cont_type);
+								  NewMHTBody.append(TmpStrBuff);
+								  NewMHTBody.append(TheAttach->attch);
+									  //NewMHTBody.append("\"");
+							  }
+							  
+								  //							  sprintf(TheCidWithPref, "Content-ID: <%s>", (char *) CidBuf);
+						  }
+						  else {
+							  NewMHTBody.append((char *) TheBody, FMark, EndTag-FMark);
+							  FMark=EndTag;
+						  }
+
+					  } 
+					  else {
+							  // if here... there is an error in the code...
+					  }
+
+				  }
+				  else {						  					  
+						  NewMHTBody.append((char *) TheBody, FMark, strlen((char *) TheBody)-FMark);
+						  break;
+				  }
+					  
+				  
+				  
+			  }
+			  
+
+				
+			if (mHTML!=nil) {		
+				mHTML->Show();
+				mHTML->Enable();
+				mTextPane->Hide();
+				  //			mHTML->SetData(data.ToUTF8());
+				if(debug>0) {							
+					FILE *filedbg;
+					filedbg=fopen("/tmp/mulb_test.html","w");
+					fprintf(filedbg, "%s", (char *) NewMHTBody);
+				fclose(filedbg);
+				}
+              
+				mHTML->SetData(NewMHTBody);
+			  }
+			}
+		  else
+		  {
+			if (mHTML!=nil) {
+				mHTML->Hide();
+				mHTML->Disable();
+			}
+				mTextPane->Show();
+		  }
+		
 #endif
 	}
 
@@ -1714,9 +1841,11 @@ void CMessageView::ResetText()
 	mText->Refresh();
 
 	// Make it active in 1-pane mode (and not printing)
-	if (!Is3Pane())
+	if (!Is3Pane()) // This change the focus, but not any advantage, because the window has a fixed dimension.... 
 		SwitchTarget(mText);
 }
+
+
 
 // Reset font scale text
 void CMessageView::ResetFontScale()
@@ -2516,8 +2645,10 @@ void CMessageView::ShowSecretPane(bool show)
 		mTextPane->ResizeFrameBy(0, -moveby, false);
 		mTextPane->MoveBy(0, moveby, false);
 #ifdef USE_HTML
-		mHTML->ResizeFrameBy(0, -moveby, false);
-		mHTML->MoveBy(0, moveby, false);
+		if (mHTML != nil) {
+			mHTML->ResizeFrameBy(0, -moveby, false);
+			mHTML->MoveBy(0, moveby, false);
+		}
 #endif
 
 		// Show parts after all other changes
@@ -2532,8 +2663,10 @@ void CMessageView::ShowSecretPane(bool show)
 		mTextPane->ResizeFrameBy(0, moveby, false);
 		mTextPane->MoveBy(0, -moveby, false);
 #ifdef USE_HTML
-		mHTML->ResizeFrameBy(0, moveby, false);
-		mHTML->MoveBy(0, -moveby, false);
+		if (mHTML!=nil) {
+			mHTML->ResizeFrameBy(0, moveby, false);
+			mHTML->MoveBy(0, -moveby, false);
+		}
 #endif
 	}
 

@@ -62,6 +62,26 @@ const signed char cmUTF7debase64[] =
 //                  	     0123456789012345678901234567890123456789012345678901234567890123
 const char cmUTF7base64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+,";
 
+
+bool CIMAPUTF7::SetEndian(const bool IsBigEndian)
+{
+	bool SwitchStat;
+	
+	if (mBigEndian!=IsBigEndian)
+		SwitchStat=true;
+	else {
+		SwitchStat=false;
+	}
+	
+	if (IsBigEndian==true) {
+		mBigEndian=true;
+	} else
+		mBigEndian=false;
+	
+	return(SwitchStat);
+}
+
+
 wchar_t CIMAPUTF7::c_2_w(const unsigned char*& c)
 {
 	// Determine length of utf8 encoded wchar_t and mask for first byte bits

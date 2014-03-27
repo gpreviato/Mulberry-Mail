@@ -149,7 +149,7 @@ bool CAttachmentManager::HandleInternal(CMessage* owner, CAttachment* attach) co
 // View an attachment
 bool CAttachmentManager::ViewAttachment(CMessage* owner, CAttachment* attach)
 {
-	// See if the part should be handled internally
+	// See if the   part should be handled internally
 	if (HandleInternal(owner, attach))
 		return true;
 

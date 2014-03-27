@@ -39,6 +39,8 @@
 
 #include <strstream>
 
+
+
 #if __dest_os == __linux_os
 #include "HResourceMap.h"
 
@@ -59,6 +61,9 @@ extern const char* cValueBoolFalse;
 
 cdstring cdstring::null_str;
 char cdstring::_empty = 0;
+int  cdstring::_stream_p = 0;
+int  cdstring::_stream_hist[MAXSAVED] = {-1, -1 , -1, -1, -1, -1, -1, -1, -1, -1};
+
 
 const char cSafemUTF7[] =
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,		// 0 - 15
@@ -447,7 +452,7 @@ cdstring::size_type cdstring::find(const char* s, size_type pos, size_type n, bo
 			{
 				if (casei)
 				{
-					if (!::tolower(*s1) != ::tolower(*p1))
+					if (::tolower(*s1) != ::tolower(*p1))
 						goto loop;
 				}
 				else
@@ -2487,6 +2492,69 @@ void cdstring::_append(const char chr, size_type size)
 		steal(more);
 	}
 }
+
+
+
+
+	// SaS (StringAsStream) functions
+
+	// SaS_readline: read max SizeOfBuf chars o from the string, and put them into Buff
+int cdstring::SaS_readline(char *Buff, int SizeOfBuf)
+{
+	
+
+	int ini_stream_p=_stream_p, i=0, l=0;
+	char LastChar;
+	
+	l=length();
+	
+	_stream_hist[0]=_stream_p;
+	
+	while(i<SizeOfBuf-1 && *(_str+_stream_p)!='\0' && _stream_p < l && *(_str+_stream_p)!='\n' && *(_str+_stream_p)!='\r'){
+		*(Buff+_stream_p-ini_stream_p)=*(_str+_stream_p);
+		_stream_p++;
+		i++;
+	}
+	*(Buff+_stream_p-ini_stream_p)='\0';
+	LastChar=*(_str+_stream_p);
+	
+	switch  (LastChar) {
+		case '\0':
+				if (strlen(Buff)==0)
+					i=EOF;
+				break;
+		case '\n': 
+			    _stream_p++;
+				break;
+		case '\r': 
+			    _stream_p++;
+				if(*(_str+_stream_p)=='\n') {
+					_stream_p++;	// EOL as DOS
+			
+				}
+				break;
+			
+	}
+	return(i);
+ 
+}
+
+
+int cdstring::SaS_rewind(int numlines) {
+	if(numlines==1)	{
+		_stream_p=_stream_hist[0];
+		return (numlines);
+	} else {
+		return (-1);
+	}
+}
+
+void cdstring::InitStream() {
+	
+	_stream_p=0;
+
+	
+	 }
 
 #pragma mark ____________________________Stream Helpers
 

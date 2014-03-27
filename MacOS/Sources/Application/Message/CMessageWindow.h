@@ -422,6 +422,11 @@ private:
 
 // Drag methods
 private:
+	typedef  struct ImgCidIdx {
+		int StartPos, IniCid, EndCid;
+		char cid[80];
+	}  ;
+	
 	virtual Boolean CheckIfViewIsAlsoSender(DragReference inDragRef);	// Check to see whether drop from another window
 
 protected:

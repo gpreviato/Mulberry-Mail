@@ -69,6 +69,7 @@ typedef std::multiset<cdstring> cdstrmultiset;
 
 class char_stream;
 
+
 class cdstring
 {
 	friend std::istream& operator >> (std::istream&, cdstring&);
@@ -87,6 +88,9 @@ public:
 
 	static cdstring null_str;
 	static const size_type npos = static_cast<size_type>(-1);
+
+	
+	
 
 	cdstring()												// Construct empty
 		{ _init(); }
@@ -512,12 +516,28 @@ public:
 	void FromUTF8ToISO();										// Convert from utf8 to local iso-8859-15 equivalent charset
 	bool IsUTF8() const;										// Check for valid UTF8
 	bool IsISO_8859_15_Subset() const;							// Check for iso-8859-15 subset in utf8
-
+																
+		// by gra: manage cdstring as a stream
+		// the pointer is stream_p
+	void InitStream();
+	
+	int SaS_readline(char *Buff, int SizeOfBuf);				// Read a Line from the stream into Buff
+	int SaS_rewind(int numlines);								// Rewind the stream of n lines
+		// End
+	
+	
 protected:
 	char*	_str;
 
 private:
 	static char _empty;
+	
+		// changes by gra
+	static int _stream_p;
+#define MAXSAVED	10
+	static int _stream_hist[MAXSAVED];							// initially only for 1 elem
+	
+		// End changes by gra
 
 	void	_init()												// Init class
 		{ _str = NULL; }

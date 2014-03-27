@@ -946,6 +946,7 @@ void CMessageView::OnMessageDelete()
 
 void CMessageView::OnViewAs(EView view)
 {
+	/* -- by gra to test if the raw body is sent to the next step*/
 	// Look for switch into/out of raw mode
 	if ((mParsing == eViewAsRaw) ^ (view == eViewAsRaw))
 	{
@@ -963,6 +964,7 @@ void CMessageView::OnViewAs(EView view)
 		else
 			mRawUTF16Text.reset(NULL);
 	}
+	 
 
 	mParsing = view;
 	ResetText();

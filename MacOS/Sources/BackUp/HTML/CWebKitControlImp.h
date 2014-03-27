@@ -23,7 +23,6 @@
 #pragma once
 
 #include <LAMControlImp.h>
-#include <LControlImp.h>
 
 #include "cdstring.h"
 
@@ -39,19 +38,9 @@ public:
 	
 	void SetURL(const cdstring& url);
 	void SetData(const cdstring& data);
-	void ClickSelf();
-	void FinishCreate();
-	void Click(SMouseDownEvent	&inMouseDown);
-	Boolean ClickStillDown(const Point&	DeltaMouseLoc);
-	
-	
-	
-//	OSStatus ApplyBindToControlLayout(HIViewRef webView, HIViewRef toView);
 	
 protected:
-		HIViewRef	mViewRef, contentView;
-	    ControlHandle	rootControl;
-		WindowPtr		macWindowP;
+		HIViewRef	mViewRef;
 	
 	virtual void		MakeMacControl(
 									   ConstStringPtr	inTitle,

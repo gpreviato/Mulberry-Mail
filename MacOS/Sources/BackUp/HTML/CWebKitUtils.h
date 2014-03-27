@@ -14,33 +14,21 @@
     limitations under the License.
 */
 
+#ifndef H_WEBKITUTILS
+#define H_WEBKITUTILS
 
-// Header for CUCS2 class
-
-#ifndef __CUCS2__MULBERRY__
-#define __CUCS2__MULBERRY__
-
-#include "CConverterBase.h"
-
-namespace i18n 
-{
-
-class CUCS2 : public CConverterBase
-{
-public:
-	CUCS2()
-	{
-		mBigEndian = true;
-	}
-	virtual ~CUCS2() {}
-
-	virtual wchar_t c_2_w(const unsigned char*& c);
-	virtual int w_2_c(wchar_t wc, char* out);
-	virtual bool SetEndian(const bool IsBigEndian);
-
-private:
-	bool mBigEndian;
-};
-
+#ifdef __cplusplus
+extern "C" {
+#endif
+	
+	extern void InitWebKit(void);
+	extern OSStatus CreateHIWebView(HIViewRef *viewref);
+	
+	extern void URLToWebView(HIViewRef viewref, CFURLRef inURL);
+	extern void DataToWebView(HIViewRef viewref, CFStringRef inData);
+	
+#ifdef __cplusplus
 }
+#endif
+
 #endif

@@ -21,13 +21,34 @@
 
 using namespace i18n;
 
+bool CUTF16::SetEndian(const bool IsBigEndian)
+{
+	bool SwitchStat;
+	
+	if (mBigEndian!=IsBigEndian)
+		SwitchStat=true;
+	else {
+		SwitchStat=false;
+	}
+
+	if (IsBigEndian==true) {
+		mBigEndian=true;
+	} else
+		mBigEndian=false;
+	
+	return(SwitchStat);
+}
+
 wchar_t CUTF16::c_2_w(const unsigned char*& c)
 {
 	unsigned char c1 = *c++;
 	unsigned char c2 = *c++;
 	wchar_t	wc = mBigEndian ? ((c1 << 8) | c2) : ((c2 << 8) | c1);
 
+		// modified by gra - 7/3/2014
+		// The Endian Model has already been defined... just apply it 
 	// Look for endian switch
+	// problem: if the system is LowEndian, it will read the BOM in the reverse order...
 	if (wc == 0xfeff)
 	{
 		// Switch endianess
@@ -38,6 +59,14 @@ wchar_t CUTF16::c_2_w(const unsigned char*& c)
 		// Switch endianess
 		mBigEndian = false;
 	}
+	
+	/*
+	if (wc == 0xfeff)
+	{
+			// is "zero width no-break space"
+		
+	}
+	 */
 	else if ((wc >= 0xd800) && (wc < 0xdc00))
 	{
 		// Have lead word - we do not handle these as they are more than 16-bits

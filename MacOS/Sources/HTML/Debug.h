@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2007-2009 Cyrus Daboo. All rights reserved.
+ Copyright (c) 2007 Cyrus Daboo. All rights reserved.
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -14,24 +14,21 @@
  limitations under the License.
  */
 
-#include "RsrcTypes.r"
 
-resource 'vers' (1) {
-	0x4,
-	0x10,
-	alpha,
-	0x3,
-	0,
-	"v4.2a5",
-	"Mulberry v4.2a5, © Cyrus Daboo, 2006-2014."
+
+// Classes
+
+class MyDebug  {
+	
+private:	
+		int debug;
+public:
+	MyDebug(void);
+	~MyDebug(void);
+	void _Log( char * );
+
+	
 };
 
-resource 'vers' (2) {
-	0x4,
-	0x10,
-	alpha,
-	0x1,
-	0,
-	"v4.2a5",
-	"Mulberry v4.2a5"
-};
+
+

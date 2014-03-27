@@ -18,6 +18,10 @@
 		6CC5E8801493A5EA00266B56 /* CEditAddressAdvancedDialog.cp in Sources */ = {isa = PBXBuildFile; fileRef = 6CC5E8771493A5EA00266B56 /* CEditAddressAdvancedDialog.cp */; };
 		6EE202CA138B70F800F9E798 /* CWebDAVErrorResponseParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EE202C8138B70F800F9E798 /* CWebDAVErrorResponseParser.cpp */; };
 		6EE20502138CB64200F9E798 /* MoreFilesX.c in Sources */ = {isa = PBXBuildFile; fileRef = 6EEFC2971389B5E600B7DEA3 /* MoreFilesX.c */; };
+		76738B12174DEC1F00D04AF2 /* NotesOnChanged introduced by gra.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 76738B11174DEC1F00D04AF2 /* NotesOnChanged introduced by gra.rtf */; };
+		76D83C4F18D1C17500F91245 /* CAttachmentRawList.cp in Sources */ = {isa = PBXBuildFile; fileRef = 76D83C4E18D1C17500F91245 /* CAttachmentRawList.cp */; };
+		76EA3FE518E1811200B53796 /* CWebKitActiveScroller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76EA3FE118E1811200B53796 /* CWebKitActiveScroller.cpp */; };
+		76EA3FE618E1811200B53796 /* Debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76EA3FE418E1811200B53796 /* Debug.cpp */; };
 		8087A1D1131407E600C2EFF8 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8087A1D0131407E600C2EFF8 /* Carbon.framework */; };
 		8087A1D3131407F700C2EFF8 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8087A1D2131407F700C2EFF8 /* AddressBook.framework */; };
 		8087A1D51314080100C2EFF8 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8087A1D41314080100C2EFF8 /* QuickTime.framework */; };
@@ -2578,6 +2582,13 @@
 		6EEFC2951389B5CA00B7DEA3 /* MoreFilesExtras.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MoreFilesExtras.c; sourceTree = "<group>"; tabWidth = 4; };
 		6EEFC2971389B5E600B7DEA3 /* MoreFilesX.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MoreFilesX.c; sourceTree = "<group>"; tabWidth = 8; };
 		6EEFC2981389B5E600B7DEA3 /* MoreFilesX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreFilesX.h; sourceTree = "<group>"; };
+		76738B11174DEC1F00D04AF2 /* NotesOnChanged introduced by gra.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = "NotesOnChanged introduced by gra.rtf"; sourceTree = "<group>"; };
+		76D83C4D18D1C17500F91245 /* CAttachmentRawList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CAttachmentRawList.h; path = Sources/Support/CAttachmentRawList.h; sourceTree = "<group>"; };
+		76D83C4E18D1C17500F91245 /* CAttachmentRawList.cp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CAttachmentRawList.cp; path = Sources/Support/CAttachmentRawList.cp; sourceTree = "<group>"; };
+		76EA3FE118E1811200B53796 /* CWebKitActiveScroller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CWebKitActiveScroller.cpp; sourceTree = "<group>"; };
+		76EA3FE218E1811200B53796 /* CWebKitActiveScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWebKitActiveScroller.h; sourceTree = "<group>"; };
+		76EA3FE318E1811200B53796 /* Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Debug.h; sourceTree = "<group>"; };
+		76EA3FE418E1811200B53796 /* Debug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Debug.cpp; sourceTree = "<group>"; };
 		8087A1D0131407E600C2EFF8 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		8087A1D2131407F700C2EFF8 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		8087A1D41314080100C2EFF8 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = System/Library/Frameworks/QuickTime.framework; sourceTree = SDKROOT; };
@@ -5458,6 +5469,7 @@
 				20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */,
 				195DF8CFFE9D517E11CA2CBB /* Products */,
 				AFD93B620AE5AA3D007F506F /* Plug-in Projects */,
+				76738B11174DEC1F00D04AF2 /* NotesOnChanged introduced by gra.rtf */,
 			);
 			name = MulberryXcode;
 			sourceTree = "<group>";
@@ -5470,13 +5482,13 @@
 				AFCDD2D10AE1647A00E30447 /* os_dep.h */,
 				AFCDD2D20AE1647A00E30447 /* os_dep.cp */,
 				AFCDE48E0AE1788300E30447 /* framework.h */,
+				AFCDDB780AE176D900E30447 /* Errors */,
 				AFCDDAC80AE1769900E30447 /* Application */,
 				AFCDDB030AE176D800E30447 /* Formatting */,
 				AF2551E70C432843001AAE53 /* HTML */,
 				AFCDDB2A0AE176D800E30447 /* Automation */,
 				AFCDDB2F0AE176D800E30447 /* Plug-ins */,
 				AFCDDB750AE176D900E30447 /* Speech */,
-				AFCDDB780AE176D900E30447 /* Errors */,
 				AFCDDB830AE176D900E30447 /* Preferences */,
 				AFCDDBD30AE176D900E30447 /* Preferences Dialog */,
 				AFCDDC970AE176DA00E30447 /* Status */,
@@ -5697,6 +5709,10 @@
 		AF2551E70C432843001AAE53 /* HTML */ = {
 			isa = PBXGroup;
 			children = (
+				76EA3FE118E1811200B53796 /* CWebKitActiveScroller.cpp */,
+				76EA3FE218E1811200B53796 /* CWebKitActiveScroller.h */,
+				76EA3FE318E1811200B53796 /* Debug.h */,
+				76EA3FE418E1811200B53796 /* Debug.cpp */,
 				AF2551E90C432843001AAE53 /* CWebKitControl.h */,
 				AF2551E80C432843001AAE53 /* CWebKitControl.cp */,
 				AF2551EB0C432843001AAE53 /* CWebKitControlImp.h */,
@@ -8749,6 +8765,8 @@
 				AFCDDFCD0AE176DE00E30447 /* CMIMESupport.cp */,
 				AFCDDFCE0AE176DE00E30447 /* CMIMETypes.h */,
 				AFCDDFCF0AE176DE00E30447 /* CMIMETypes.cp */,
+				76D83C4D18D1C17500F91245 /* CAttachmentRawList.h */,
+				76D83C4E18D1C17500F91245 /* CAttachmentRawList.cp */,
 			);
 			name = Attachments;
 			sourceTree = "<group>";
@@ -10455,6 +10473,7 @@
 				AF3754720AE2D15900C56E20 /* Mulberry.icns in Resources */,
 				AF3754730AE2D15900C56E20 /* Pref.icns in Resources */,
 				AF3754740AE2D15900C56E20 /* shlb.icns in Resources */,
+				76738B12174DEC1F00D04AF2 /* NotesOnChanged introduced by gra.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11565,6 +11584,9 @@
 				6CC5E8801493A5EA00266B56 /* CEditAddressAdvancedDialog.cp in Sources */,
 				6C6B65D51493A769009C73E4 /* CCalendarCheckThread.cp in Sources */,
 				6C6B65D61493A769009C73E4 /* CPasswordManagerKeyring.cp in Sources */,
+				76D83C4F18D1C17500F91245 /* CAttachmentRawList.cp in Sources */,
+				76EA3FE518E1811200B53796 /* CWebKitActiveScroller.cpp in Sources */,
+				76EA3FE618E1811200B53796 /* Debug.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11690,6 +11712,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = i386;
+				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;

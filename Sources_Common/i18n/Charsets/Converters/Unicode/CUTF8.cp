@@ -21,6 +21,25 @@
 
 using namespace i18n;
 
+bool CUTF8::SetEndian(const bool IsBigEndian)
+{
+	bool SwitchStat;
+	
+	if (mBigEndian!=IsBigEndian)
+		SwitchStat=true;
+	else {
+		SwitchStat=false;
+	}
+	
+	if (IsBigEndian==true) {
+		mBigEndian=true;
+	} else
+		mBigEndian=false;
+	
+	return(SwitchStat);
+}
+
+
 wchar_t CUTF8::c_2_w(const unsigned char*& c)
 {
 	// Determine length of utf8 encoded wchar_t and mask for first byte bits

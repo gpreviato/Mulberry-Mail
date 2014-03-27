@@ -21,6 +21,25 @@
 
 using namespace i18n;
 
+bool CUCS2::SetEndian(const bool IsBigEndian)
+{
+	bool SwitchStat;
+	
+	if (mBigEndian!=IsBigEndian)
+		SwitchStat=true;
+	else {
+		SwitchStat=false;
+	}
+	
+	if (IsBigEndian==true) {
+		mBigEndian=true;
+	} else
+		mBigEndian=false;
+	
+	return(SwitchStat);
+}
+
+
 wchar_t CUCS2::c_2_w(const unsigned char*& c)
 {
 	// Just write out two bytes

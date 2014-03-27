@@ -47,6 +47,7 @@ public:
 	virtual void finish_w_2_c(std::ostream& out);
 
 	virtual wchar_t c_2_w(const unsigned char*& c) = 0;
+		//	virtual bool SetEndian(const bool IsBigEndian);
 	virtual int w_2_c(wchar_t wc, char* out) = 0;
 };
 

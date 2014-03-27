@@ -28,6 +28,23 @@
 
 PP_Begin_Namespace_PowerPlant
 
+
+/* Error Codes */
+/*
+ eventAlreadyPostedErr           = -9860
+ eventClassInvalidErr            = -9862
+ eventClassIncorrectErr          = -9864
+ eventHandlerAlreadyInstalledErr = -9866
+ eventInternalErr                = -9868
+ eventKindIncorrectErr           = -9869
+ eventParameterNotFoundErr       = -9870
+ eventNotHandledErr              = -9874
+ eventLoopTimedOutErr            = -9875
+ eventLoopQuitErr                = -9876
+ eventNotInQueueErr              = -9877
+*/
+
+
 // ---------------------------------------------------------------------------
 
 class	CWebKitControl : public LControlView {
@@ -50,6 +67,11 @@ public:
 	
 	void SetURL(const cdstring& url);
 	void SetData(const cdstring& data);
+	void ClickSelf();
+	void Click(SMouseDownEvent	&inMouseDown);
+	void FinishCreate();
+	Boolean ClickStillDown(const Point	&OnClickMouseLoc, const Point&	UpdMouseLoc, const Point&	DeltaMouseLoc);
+	
 	
 protected:
 		virtual void		AdjustMouseSelf(
